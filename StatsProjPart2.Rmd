@@ -41,7 +41,9 @@ At first glance, it appears that there is a strong positive relationship between
 ### Setting Up Our Tests
 The first step is to state our null and alternate hypotheses, set a decision rule, and chose the appropriate tests. According to the assumptions made in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally meaniful/plausible if the inverse was true (decreasing dosage $\implies$ increased length). In order not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
 
-The null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$. I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections. However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will simply ignore the problem of multiplicity for simplicity.
+In our first test (tooth growth by dose), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$ (for each pair of doses), and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$ (again, for each pair of doses). I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections. However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will simply ignore the problem of multiplicity for simplicity's sake. It should be kept in mind this inflates the tolerance of each test.
+
+In our second test (tooth growth by supplement), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$.
 
 ```{r}
 #t.test(, alternative = "greater", paired = T)
