@@ -1,5 +1,6 @@
 ---
 title: "Statistical Inference: Course Project"
+author: "rtaph"
 output: pdf_document
 ---
 
@@ -8,39 +9,54 @@ output: pdf_document
   setwd("~/datasciencecoursera/StatsProj1/")
   library(ggplot2)
 ```
-## 1. Show where the distribution is centered at and compare it to the theoretical center of the distribution.
-
-We can visualize the distribution with the histogram:
+# Part I: The Exponential Distribution
+We can visualize the distribution with the histogram of an experiment in which we take 1000 random draws from the exponential distribution. Throughout this paper, we will use $\lambda = 0.2$:
 ```{r}
 set.seed(5678)
 n = 1000; lambda = 0.2;
-hist(rexp(n, lambda))
+experiment1 = rexp(n, lambda)
+hist(experiment1)
 ```
 
-n 
+In this particular experiment, the mean is calculated to be `r mean(experiment1)`. To make use of the properties of asymptotics, we run a monte carlo experiement where we repeat the original experiment 40 times. The means of each experiment is saved in a vector: 
+
 ```{r}
-par(mfrow=c(1,2))
-mns = NULL
-for (i in 1 : 40) mns = c(mns, mean(rexp(n, lambda)))
-hist(mns)
-cltmean = cumsum(mns) / (1 : 40)
-abline(v=cltmean, col="red", lwd=2)
-g <- ggplot(data.frame(x = 1 : 40, y = mns), aes(x = x, y = y))
-g <- g + geom_hline(yintercept = 0) + geom_line(size = 2)
-g <- g + labs(x = "Number of obs", y = "Cumulative mean")
+monte.carlo.means = NULL; m = 40;
+for (i in 1 : m) monte.carlo.means = c(monte.carlo.means, mean(rexp(n, lambda)))
+```
+
+## 1. Show where the distribution is centered at and compare it to the theoretical center of the distribution.
+
+The expected value of an exponentially distributed random variable $X$ with rate parameter $\lambda$ is given by $E[X] = \frac{1}{\lambda}$. For the distribution chosen in this paper, the theoretical mean evaluates to $1/ `r lambda` = `r 1/lambda`$.
+
+```{r}
+theoretical.mean = (1/lambda)
+cum.means <- cumsum(monte.carlo.means) / (1 : m)
+empirical.mean   = cum.means[m]
+g <- ggplot(data.frame(x = 1 : m, y = cum.means), aes(x = x, y = y))
+g <- g + geom_line(size = 2) + labs(x = "Number of obs", y = "Cumulative mean")
 g
 ```
-The expected value of an exponentially distributed random variable $X$ with rate parameter $\lambda$ is given by $E[X] = \frac{1}{\lambda} = \frac{1}{20} \approx `r 1/20`$. We run a Monte Carlo simulation
 
-we can visually see this is approximately normal:
-```{r}
-par(mfrow=c(1,2))
-hist(mns); abline(v=cltmean, col="red", lwd=2)
-qqnorm(mns); qqline(mns)
-```
 ## 2. Show how variable it is and compare it to the theoretical variance of the distribution.
 
-The theretical variance of the distribution is $Var[X] = \frac{1}{\lambda^2} = \frac{1}{20^2} \approx `r 1/20^2`$. We run a Monte Carlo simulation
+The theretical variance of the distribution is given by the expression $Var[X] = \frac{1}{\lambda^2}$. We compare both the theoretical and empirical results below:
+```{r}
+(theoretical.var = 1/(lambda^2) )
+(empirical.var = var(experiment1))
+```
 
 ## 3. Show that the distribution is approximately normal.
+
+The Central Limit Theorem (CLT) tells us that the resulting distribution of means from our 40 experiments should tend towards normality. We can visually test this on the basis of our empirical data by plotting a histogram of the means and producing a QQ plot.
+```{r}
+par(mfrow=c(1,2))
+hist(monte.carlo.means); 
+x<-seq(min(monte.carlo.means),max(monte.carlo.means),0.1) 
+curve(dnorm(x, theoretical.mean, sqrt(theoretical.var)), col="green", lwd=3, add=TRUE, yaxt="n")
+qqnorm(monte.carlo.means); qqline(monte.carlo.means, col="green", lwd=3)
+```
+
+The green line represents the normal distribution for comparison. Although the distribution is not perfectly normal, visual inspection reveals that the fit is pretty good. The deviations from normality fall within the expected range of noise for a monte carlo simulation with 40 draws. 
+
 
