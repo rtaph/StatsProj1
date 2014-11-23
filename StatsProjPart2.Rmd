@@ -14,21 +14,21 @@ output: pdf_document
 
 This paper will explore the `ToothGrowth` data in the R data sets package. In particular, the objective is to use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.
 
-### Discussion of the Data and Experiment Design
+### Discussion of the Data and Experimental Design
 The `?ToothGrowth` page gives insight into the data set, which originates from a study by C. I. Bliss in *The Statistics of Bioassay*, (1952). Three variables describe the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid):
 
 * __len:__ Tooth length
 * __supp:__	 Supplement type (VC or OJ)
 * __dose:__	 Dose in milligrams
 
-To begin the analysis, we load the data and plot each variable against the others:
+To begin the analysis, we load the data and run summaritive printouts:
 
 ```{r}
 library(datasets); data(ToothGrowth);
 summary(ToothGrowth)
 table(ToothGrowth$supp, ToothGrowth$dose)
 ```
-The data conforms to the expectations from reading the help file. In particular, we note that the sample sizes are equally distributed across the variables `supp` and `dose`. Although the help file mentions that there were only 10 guinea pigs, and that the data fits nicely into 10-sample subsets, there is no identifier variable for each guinea pig. As a result, it is safer to assume that the data is not structured in a paired order, and to conduct independent-group hypothesis tests. It is also assumed that data is independent and identically distributed (IID) _within groups_, and that the variance between these groups unequal (the more conservative assumption).
+The data conforms to the expectations from reading the help file. In particular, we note that the sample sizes are equally distributed across the variables `supp` and `dose`. Although the help file mentions that there were only 10 guinea pigs, and that the data fits nicely into 10-sample subsets, there is no identifier variable for each guinea pig. As a result, I will assume throughout this paper that the data is not structured in a paired order, and accordingly conduct independent-group hypothesis tests. It is also assumed that data is independent and identically distributed (IID) _within groups_, and that the variance between these groups unequal (the more conservative assumption).
 
 To begin the analysis, I plot the pairs of variables against one another:
 
@@ -38,10 +38,10 @@ pairs(ToothGrowth)
 
 At first glance, it appears that there is a strong positive relationship between tooth length and dose. A potential relationship between the length and supplement type is less apparent.
 
-### Tooth Growth & Dose
-In this section, we  test whether tooth growth is correlated to dosage. According to the assumptions stated in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally meaniful if (and plausible that) the inverse was true. In order not two bias the hypothesis test with a lower tolerance as a result of having already explored it visually, I justify the two-sided alternative as the desirable option. 
+### Setting Up Our Tests
+The first step is to state our null and alternate hypotheses, set a decision rule, and chose the appropriate tests. According to the assumptions made in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally meaniful/plausible if the inverse was true (decreasing dosage $\implies$ increased length). In order not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
 
-The null hypothesis is that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$. I set alpha at $\alpha = 0.05$.
+The null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$. I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections. However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will simply ignore the problem of multiplicity for simplicity.
 
 ```{r}
 #t.test(, alternative = "greater", paired = T)
