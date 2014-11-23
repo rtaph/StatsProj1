@@ -16,15 +16,15 @@ To explore the exponential distribution, we begin by making a histogram of an ex
 set.seed(5678)
 n = 40; lambda = 0.2;
 experiment1 = rexp(n, lambda)
-hist(experiment1)
+hist(experiment1, xlab = "Value of Random Variable X")
 ```
 
 In our experiment, the mean of the `r n` draws is calculated to be `r mean(experiment1)`. Given the inherent variability in random data, we might expect this sample mean ($\bar{x}$) to differ slightly from the population mean from which it was drawn ($\mu$).
 
-To investigate this further, we turn to asymptotics by repeating the experiment many times through a monte carlo simulation. The means of each experiment are saved in a vector object: 
+To investigate this, we turn to asymptotics. By repeating the experiment many times through a monte carlo simulation, we may be able to gain stronger insight into the true nature of the population. We repeat the experiment a thousand times and take the mean of each experiment: 
 
 ```{r}
-monte.carlo.means = NULL; m = 1000;
+monte.carlo.means = NULL; m = 1000; set.seed(1234);
 for (i in 1 : m) monte.carlo.means = c(monte.carlo.means, mean(rexp(n, lambda)))
 ```
 
@@ -51,11 +51,15 @@ The theretical variance of the distribution is given by the expression $Var[X] =
 
 ```{r}
 theoretical.var = 1/(lambda^2)
-empirical.var = var(experiment1)
-c(Theoretical = theoretical.var, Experiment1 = empirical.var)
+experiment.var = var(experiment1)
+monte.carlo.var = NULL; set.seed(1234)  # same seed, same monte carlo simulation
+for (i in 1 : m) monte.carlo.var = c(monte.carlo.var, var(rexp(n, lambda)))
+cumulative.var <- cumsum(monte.carlo.var) / (1 : m)
+c(Theoretical = theoretical.var, Experiment1 = experiment.var, 
+  MonteCarlo = cumulative.var[m])
 ```
 
-These two values are close. We would expect the culumulative variance of multiple experiments to converge to the theoretical variance as a result of the Law of Large Numbers.
+The cumulative monte carlo variance is much closer to the theoretical value than the original experiment. We would expect this to be the case as a result of the Law of Large Numbers.
 
 ## 3. Show that the distribution is approximately normal.
 
