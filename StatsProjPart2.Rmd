@@ -38,13 +38,17 @@ pairs(ToothGrowth)
 At first glance, it appears that there is a strong positive relationship between tooth length and dose. A potential relationship between the length and supplement type is less apparent.
 
 ### Setting Up Our Tests
-The first step is to state our null and alternate hypotheses, set a decision rule, and chose the appropriate tests. According to the assumptions made in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally plausible and meaningful if the inverse was true (decreasing dosage $\implies$ increased length). So as not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
+The first step is to set a decision rule, chose the appropriate tests, and state our null and alternate hypotheses. According to the assumptions made in the introductory paragraphs, my choice of test is an independent, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally plausible and meaningful if the inverse was true (decreasing dosage $\implies$ increased length). So as not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
 
-In our first test (tooth growth by dose), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$ (for each pair of doses), and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$ (again, for each pair of doses). I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections (i.e. divide $\alpha$ by the number of tests). However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will take a different approach. Instead of testing each subgroup pair, I will be more selective in which pairs to test, chosing only the tests that we would reasonably expect to have differences.
+I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections (i.e. divide $\alpha$ by the number of tests). However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will take a different approach. Instead of testing each possible pair (${6 \choose 2} = 15$ total), I will be more selective in which pairs to test, chosing only the tests that we would reasonably expect to have differences. For this, I choose to test only three hypotheses:
 
-In our second test (tooth growth by supplement), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$.
+1. In the first test, I would like to test if there is a difference in the pair of $0.5mg$ and $2mg$ dose groups for the guinea pigs that were given orange juice. The null hypothesis is that $H_{0}: \mu_{0.5mg} = \mu_{2mg}$ and the alternate hypothesis is $H_{a}: \mu_{0.5mg} \neq \mu_{2mg}$. 
 
-## Conducting the tests
+2. In the second test, I explore the same idea, but for the guinea pigs that were administered the ascorbic acid supplement. The null hypothesis is that $H_{0}: \mu_{0.5mg} = \mu_{2mg}$ and the alternate hypothesis is $H_{a}: \mu_{0.5mg} \neq \mu_{2mg}$. 
+
+3. In the third test, I investigate whether the choice of supplement type affects tooth growth. In order to do this, we must control for dosage. There is no basis for pooling all dosage groups together since this is a case control study, and that aggregating all groups together would undermine the assumption the IID data. I have randomly chosen the group with a dosage of $1mg$. The null hypothesis is that $H_{0}: \mu_{OJ} = \mu_{VC}$ and the alternate hypothesis is $H_{a}: \mu_{OJ} \neq \mu_{VC}$.
+
+## Conclusions
 
 We set up each vector of tooth growth by supplement and dose.
 ```{r}
@@ -56,20 +60,35 @@ VC2 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 1)
 VC3 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 2)
 ```
 
-We then run create 95% confidence intervals for each subset
+We use a t.test for each of the three hypotheses we wish to test:
 ```{r}
-rbind(t.test(OJ1)$conf.int, t.test(OJ2)$conf.int, t.test(OJ2)$conf.int)
+t1 = t.test(OJ3, OJ1, alternative = "two.sided", var.equal = FALSE)
+t2 = t.test(VC3, VC1, alternative = "two.sided", var.equal = FALSE)
+t3 = t.test(OJ2, VC2, alternative = "two.sided", var.equal = FALSE)
+cbind(t1 = t1$p.value, t2 = t2$p.value, t3 = t3$p.value)
 ```
-Based on the results of the test, I conclude that...
+The p-values of each test fall below the threshold of $.05$. We therefore reject the null hypothesis in all three cases and report that:
 
-### Tooth Growth & Delivery Method
-In this part, I will test whether tooth growth is correlated to the delivery method of a supplement (orange juice or ascorbic acid).
+1. There is strong evidence
 
+And finally, the Gosset t-intervals are given by: 
+```{r}
+rbind(t1 = t1$conf.int, t2 = t2$conf.int,  t3 = t3$conf.int)
+```
 
-### Other info
-State your conclusions and the assumptions needed for your conclusions. 
-Some criteria that you will be evaluated on
-Did you  perform an exploratory data analysis of at least a single plot or table highlighting basic features of the data?
-Did the student perform some relevant confidence intervals and/or tests?
-Were the results of the tests and/or intervals interpreted in the context of the problem correctly? 
-Did the student describe the assumptions needed for their conclusions?
+None of the 95% intervals cross over zero. This makes sense, given that all p-values were lower than .05.
+
+$\pagebreak$
+
+## Appendix A: Full Results of the t-Tests
+```{r}
+t1
+```
+
+```{r}
+t2
+```
+
+```{r}
+t3
+```
