@@ -55,11 +55,11 @@ empirical.var = var(experiment1)
 c(Theoretical = theoretical.var, Experiment1 = empirical.var)
 ```
 
-As expected, these two values are close. As was the case with the culumulative means of multiple experiments, we would expect the cumulative variance of multiple experiments to converge to the theoretical variance.
+These two values are close. We would expect the culumulative variance of multiple experiments to converge to the theoretical variance as a result of the Law of Large Numbers.
 
 ## 3. Show that the distribution is approximately normal.
 
-The Central Limit Theorem (CLT) tells us that the resulting distribution of means from our 40 experiments should tend towards normality. We can visually test this on the basis of our empirical data by plotting a histogram of the means and producing a QQ plot.
+The Central Limit Theorem (CLT) tells us that the resulting distribution of means from our `r m` experiments should tend towards normality. We can visually test this on the basis of our empirical data by plotting a histogram of the means and producing a QQ plot.
 ```{r}
 par(mfrow=c(1,2))
 hist(monte.carlo.means); 
@@ -68,6 +68,6 @@ curve(dnorm(x, theoretical.mean, sqrt(theoretical.var)), col="green", lwd=3, add
 qqnorm(monte.carlo.means); qqline(monte.carlo.means, col="green", lwd=3)
 ```
 
-The green line represents the identity line for normal distribution. Although the distribution is not perfectly normal, visual inspection reveals that the fit is pretty good. The deviations from normality fall within the expected range of noise for a monte carlo simulation with 40 draws. 
+The green line represents the identity line for normal distribution. Although the distribution is not perfectly normal, visual inspection reveals that the fit is pretty good. The deviations from normality fall within the expected range of noise for a monte carlo simulation. 
 
 
