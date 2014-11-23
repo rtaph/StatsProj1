@@ -68,12 +68,12 @@ The Central Limit Theorem (CLT) tells us that the resulting distribution of mean
 
 ```{r}
 par(mfrow=c(1,2))
-hist(monte.carlo.means); 
-x<-seq(min(monte.carlo.means),max(monte.carlo.means),0.1) 
-curve(dnorm(x, theoretical.mean, sqrt(theoretical.var)), col="green", lwd=3, add=TRUE, yaxt="n")
+hist(monte.carlo.means)
 qqnorm(monte.carlo.means); qqline(monte.carlo.means, col="green", lwd=3)
 ```
 
-The green line represents the identity line for normal distribution. Although the distribution is not perfectly normal, visual inspection reveals that the fit is pretty good. The deviations from normality fall within the expected range of noise for a monte carlo simulation. 
+Visual inspection of the histogram reveals that the distribution of experiment means resembles the normal distribution.
+
+The QQ plot supports this finding, with the green line representing the identity line for normal distribution. We attribute the small deviations from normality as monte carlo error (i.e. random noise from the simluation). 
 
 
