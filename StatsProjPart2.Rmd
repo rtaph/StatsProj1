@@ -76,7 +76,7 @@ And finally, the Gosset t-intervals are given by:
 rbind(t1 = t1$conf.int, t2 = t2$conf.int,  t3 = t3$conf.int)
 ```
 
-None of the 95% intervals cross over zero. This makes sense, given that all p-values were lower than .05.
+None of the 95% intervals cross over zero. This makes sense, given that the 95th t-quantile **is** the rejection threshold when $\alpha = .05$.
 
 $\pagebreak$
 
