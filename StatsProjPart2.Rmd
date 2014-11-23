@@ -41,7 +41,7 @@ At first glance, it appears that there is a strong positive relationship between
 ### Tooth Growth & Dose
 In this section, we  test whether tooth growth is correlated to dosage. According to the assumptions stated in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally meaniful if (and plausible that) the inverse was true. In order not two bias the hypothesis test with a lower tolerance as a result of having already explored it visually, I justify the two-sided alternative as the desirable option. 
 
-The null hypothesis is that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} > \mu_{2}$. I set alpha at $\alpha = 0.05$.
+The null hypothesis is that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$. I set alpha at $\alpha = 0.05$.
 
 ```{r}
 #t.test(, alternative = "greater", paired = T)
