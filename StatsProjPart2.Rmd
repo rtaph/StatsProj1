@@ -8,7 +8,6 @@ output: pdf_document
 ```{r echo=FALSE}
   # Set working directory
   setwd("~/datasciencecoursera/StatsProj1/")
-  library(ggplot2)
 ```
 # Part II: Tooth Growth
 
@@ -39,16 +38,28 @@ pairs(ToothGrowth)
 At first glance, it appears that there is a strong positive relationship between tooth length and dose. A potential relationship between the length and supplement type is less apparent.
 
 ### Setting Up Our Tests
-The first step is to state our null and alternate hypotheses, set a decision rule, and chose the appropriate tests. According to the assumptions made in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally meaniful/plausible if the inverse was true (decreasing dosage $\implies$ increased length). In order not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
+The first step is to state our null and alternate hypotheses, set a decision rule, and chose the appropriate tests. According to the assumptions made in the introductory paragraphs, my choice of test is a paired, two-sided t-test. Although the plot in the exploratory phase suggests that tooth growth increases directly proportionate to dosage, it would have been equally plausible and meaningful if the inverse was true (decreasing dosage $\implies$ increased length). So as not two bias the hypothesis test with a lower tolerance resulting from having already explored the data visually, I justify the two-sided alternative as the appropriate option. 
 
-In our first test (tooth growth by dose), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$ (for each pair of doses), and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$ (again, for each pair of doses). I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections. However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will simply ignore the problem of multiplicity for simplicity's sake. It should be kept in mind this inflates the tolerance of each test.
+In our first test (tooth growth by dose), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$ (for each pair of doses), and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$ (again, for each pair of doses). I would normally set the family-wise tolerance at $\alpha = 0.05$, and accordingly make bonferroni corrections (i.e. divide $\alpha$ by the number of tests). However, given these adjustments were not covered in class, and that 95% confidence intervals are requested, I will take a different approach. Instead of testing each subgroup pair, I will be more selective in which pairs to test, chosing only the tests that we would reasonably expect to have differences.
 
 In our second test (tooth growth by supplement), the null hypothesis is therefore that $H_{0}: \mu_{1} = \mu_{2}$, and our alternate hypothesis is $H_{a}: \mu_{1} \neq \mu_{2}$.
 
+## Conducting the tests
+
+We set up each vector of tooth growth by supplement and dose.
 ```{r}
-#t.test(, alternative = "greater", paired = T)
+OJ1 = subset(ToothGrowth$len, ToothGrowth$supp == "OJ" & ToothGrowth$dose == 0.5)
+OJ2 = subset(ToothGrowth$len, ToothGrowth$supp == "OJ" & ToothGrowth$dose == 1)
+OJ3 = subset(ToothGrowth$len, ToothGrowth$supp == "OJ" & ToothGrowth$dose == 2)
+VC1 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 0.5)
+VC2 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 1)
+VC3 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 2)
 ```
 
+We then run create 95% confidence intervals for each subset
+```{r}
+rbind(t.test(OJ1)$conf.int, t.test(OJ2)$conf.int, t.test(OJ2)$conf.int)
+```
 Based on the results of the test, I conclude that...
 
 ### Tooth Growth & Delivery Method
