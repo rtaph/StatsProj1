@@ -14,13 +14,14 @@ output: pdf_document
 To explore the exponential distribution, we begin by making a histogram of an experiment where we draw 40 random variables $X$ from the distribution. For our purposes, we will use the exponential distribution with $\lambda = 0.2$, but any value of lambda greater than zero can be chosen. We can get a sense of what distribution looks like by plotting a histogram of this experiment:
 
 ```{r}
-set.seed(5678)
-n = 40; lambda = 0.2;
+set.seed(5678); n = 40; lambda = 0.2;
 experiment1 = rexp(n, lambda)
 hist(experiment1, xlab = "Value of Random Variable X")
+abline(v=mean(experiment1), col = "red", lwd = 3)
+legend("topright", legend = "Sample Mean", lwd=3, col="red")
 ```
 
-In our experiment, the mean of the `r n` draws is calculated to be `r mean(experiment1)`. Given the inherent variability in random data, we might expect this sample mean ($\bar{x}$) to differ slightly from the population mean from which it was drawn ($\mu$).
+In our experiment, the mean of the `r n` draws is calculated to be `r mean(experiment1)` (shown in red above). Given the inherent variability in random data, we might expect this sample mean ($\bar{x}$) to differ slightly from the population mean from which it was drawn ($\mu$).
 
 To investigate this, we turn to asymptotics. By repeating the experiment many times through a monte carlo simulation, we may be able to gain stronger insight into the true nature of the population. We repeat the experiment a thousand times and take the mean of each experiment: 
 
@@ -72,8 +73,6 @@ hist(monte.carlo.means)
 qqnorm(monte.carlo.means); qqline(monte.carlo.means, col="green", lwd=3)
 ```
 
-Visual inspection of the histogram reveals that the distribution of experiment means resembles the normal distribution.
-
-The QQ plot supports this finding, with the green line representing the identity line for normal distribution. We attribute the small deviations from normality as monte carlo error (i.e. random noise from the simluation). 
+Visual inspection of the histogram reveals that the distribution of experiment means resembles the normal distribution. The QQ plot supports this finding, with the green line representing the identity line for normal distribution. We attribute the small deviations from normality as monte carlo error (i.e. random noise from the simluation). 
 
 
