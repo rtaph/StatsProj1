@@ -1,0 +1,34 @@
+# History files
+.Rhistory
+
+# Example code in package build process
+*-Ex.R
+
+# R data files from past sessions
+.Rdata
+
+# RStudio files
+.Rproj.user/
+.Rproj.user
+*.Rproj
+
+## Redundant data files
+
+
+## Cached files (knitr)
+/*_cache
+
+## Other knitr files
+*-tikzDictionary
+*.aux
+*.log
+*.out
+knitr-*.pdf
+inst/examples/cache
+inst/examples/figure
+knitr-spin.md
+knitr-spin.html
+.Rproj.user
+/.Rhistory
+/inst/examples/*.tex
+/inst/examples/*.sty
