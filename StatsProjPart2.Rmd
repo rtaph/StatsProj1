@@ -9,15 +9,27 @@ output: pdf_document
   setwd("~/datasciencecoursera/StatsProj1/")
   library(ggplot2)
 ```
-# Part I: The Exponential Distribution
-We can visualize the distribution with the histogram of an experiment in which we take 1000 random draws from the exponential distribution. Throughout this paper, we will use $\lambda = 0.2$:
-```{r}
+# Part II: Tooth Growth
 
+This paper will explore the ToothGrowth data in the R datasets package. In particular, the objective is to draw a few meaningful and valid conclusions about the data, using hypothesis tests.
+
+The `?ToothGrowth` page gives insight into the dataset. Three variables describe the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid):
+- **len:**	 Tooth length
+- **supp:**	 Supplement type (VC or OJ)
+- **dose:**	 Dose in milligrams
+
+The data comes from C. I. Bliss (1952) *The Statistics of Bioassay.* Academic Press
+
+To begin the analysis, we load the data and plot each variable against the others:
+
+```{r}
+library(datasets); data(ToothGrowth);
+pairs(ToothGrowth)
 ```
 
-Now in the second portion of the class, we're going to analyze the ToothGrowth data in the R datasets package. 
-Load the ToothGrowth data and perform some basic exploratory data analyses 
-Provide a basic summary of the data.
+At first glance, it appears that there is a strong relationship between tooth length and dose. Any relationship between the other variables is less aparent.
+
+
 Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
 State your conclusions and the assumptions needed for your conclusions. 
 Some criteria that you will be evaluated on
