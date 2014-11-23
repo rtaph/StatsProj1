@@ -48,7 +48,7 @@ I would normally set the family-wise tolerance at $\alpha = 0.05$, and according
 
 3. In the third test, I investigate whether the choice of supplement type affects tooth growth. In order to do this, we must control for dosage. There is no basis for pooling all dosage groups together since this is a case control study, and that aggregating all groups together would undermine the assumption the IID data. I have randomly chosen the group with a dosage of $1mg$. The null hypothesis is that $H_{0}: \mu_{OJ} = \mu_{VC}$ and the alternate hypothesis is $H_{a}: \mu_{OJ} \neq \mu_{VC}$.
 
-## Conclusions
+### Conclusions
 
 We set up each vector of tooth growth by supplement and dose.
 ```{r}
@@ -81,6 +81,8 @@ None of the 95% intervals cross over zero. This makes sense, given that the 95th
 $\pagebreak$
 
 ## Appendix A: Full Results of the t-Tests
+The full printout of the t-test for each of our three tests is given below: 
+
 ```{r}
 t1
 ```
