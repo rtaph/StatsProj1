@@ -69,18 +69,20 @@ cbind(t1 = t1$p.value, t2 = t2$p.value, t3 = t3$p.value)
 ```
 The p-values of each test fall below the threshold of $.05$. We therefore reject the null hypothesis in all three cases and report that:
 
-1. On average, guinea pigs that were given higher doses of vitamin C ($2 mg$) through orange juice experienced greater tooth growth (M = 26.06) than guinea pigs given lower doses of $0.5 mg$ (M = 13.23). This difference was significant $t(14.668)$ = 7.817, $p$ < .01.
+1. On average, guinea pigs that were given higher doses of vitamin C ($2 mg$) through orange juice experienced greater tooth growth (M = 26.06) than guinea pigs given lower doses of $0.5 mg$ through orange juice (M = 13.23). This difference was significant $t(14.668)$ = 7.817, $p$ < .01.
 
-1. On average, guinea pigs that were given higher doses of vitamin C ($2 mg$) through ascorbic acid supplements experienced greater tooth growth (M = 26.14) than guinea pigs given lower doses of $0.5 mg$ (M = 7.98). This difference was significant $t(14.327)$ = 10.3878, $p$ < .01.
+1. On average, guinea pigs that were given higher doses of vitamin C ($2 mg$) through ascorbic acid delivery experienced greater tooth growth (M = 26.14) than guinea pigs given lower doses of $0.5 mg$ through ascorbic acid delivery (M = 7.98). This difference was significant $t(14.327)$ = 10.3878, $p$ < .01.
+
+1. On average, guinea pigs that were given $2 mg$ of vitamin C experienced greater tooth growth when this was adminstered through orange juice (M = 22.70) compared with ascorbic acid delivery (M = 16.774). This difference was significant $t(15.358)$ = 4.0328, $p$ < .01.
 
 The full results of each t-test are given in the appendix.
 
-And finally, the Gosset t-intervals are given by: 
+Finally, the Gosset t-intervals are given by: 
 ```{r}
 rbind(t1 = t1$conf.int, t2 = t2$conf.int,  t3 = t3$conf.int)
 ```
 
-None of the 95% intervals cross over zero. This makes sense, given that the 95th t-quantile **is** the rejection threshold when $\alpha = .05$.
+None of the 95% intervals cross over zero. This makes sense, given that the 95th t-quantile *is* the rejection threshold when $\alpha = .05$.
 
 $\pagebreak$
 
