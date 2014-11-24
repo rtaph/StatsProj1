@@ -11,7 +11,7 @@ output: pdf_document
 ```
 # Part II: Tooth Growth
 
-This paper will explore the `ToothGrowth` data in the R data sets package. In particular, the objective is to use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.
+This paper will explore the `ToothGrowth` data in the R data sets package. In particular, the objective is to use confidence intervals and/or hypothesis tests to compare tooth growth by supplement and dose.
 
 ### Discussion of the Data and Experimental Design
 The `?ToothGrowth` page gives insight into the data set, which originates from a study by C. I. Bliss in *The Statistics of Bioassay*, (1952). Three variables describe the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid):
@@ -27,7 +27,7 @@ library(datasets); data(ToothGrowth);
 summary(ToothGrowth)
 table(ToothGrowth$supp, ToothGrowth$dose)
 ```
-The data conforms to the expectations from reading the help file. In particular, we note that the sample sizes are equally distributed across the variables `supp` and `dose`. Although the help file mentions that there were only 10 guinea pigs, and that the data fits nicely into 10-sample subsets, there is no identifier variable for each guinea pig. As a result, I will assume throughout this paper that the data is not structured in a paired order, and accordingly conduct independent-group hypothesis tests. It is also assumed that data is independent and identically distributed (IID) _within groups_, and that the variance between these groups unequal (the more conservative assumption).
+The data conforms to the expectations from reading the help file. In particular, we note that the sample sizes are equally distributed across the variables `supp` and `dose`. However, even though each subcategory has 10 observations, there is no identifier variable for guinea pigs. As a result, I will assume throughout this paper that the data is not structured in a paired order, and accordingly conduct independent-group hypothesis tests. It is also assumed that data is independent and identically distributed (IID) _within groups_, and that the variance between these groups is unequal (the more conservative assumption, see appendix B).
 
 To begin the analysis, I plot the pairs of variables against one another:
 
@@ -60,13 +60,14 @@ VC2 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 1)
 VC3 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 2)
 ```
 
-We use a t.test for each of the three hypotheses we wish to test:
+We then run a t-test for each of the three pairs that form our testable hypotheses:
 ```{r}
 t1 = t.test(OJ3, OJ1, alternative = "two.sided", var.equal = FALSE)
 t2 = t.test(VC3, VC1, alternative = "two.sided", var.equal = FALSE)
 t3 = t.test(OJ2, VC2, alternative = "two.sided", var.equal = FALSE)
 cbind(t1 = t1$p.value, t2 = t2$p.value, t3 = t3$p.value)
 ```
+
 The p-values of each test fall below the threshold of $.05$. We therefore reject the null hypothesis in all three cases and report that:
 
 1. On average, guinea pigs that were given higher doses of vitamin C ($2 mg$) through orange juice experienced greater tooth growth (M = 26.06) than guinea pigs given lower doses of $0.5 mg$ through orange juice (M = 13.23). This difference was significant $t(14.668)$ = 7.817, $p$ < .01.
@@ -77,7 +78,7 @@ The p-values of each test fall below the threshold of $.05$. We therefore reject
 
 The full results of each t-test are given in the appendix.
 
-Finally, the Gosset t-intervals are given by: 
+Finally, the Gosset t-intervals for the three tests are given by: 
 ```{r}
 rbind(t1 = t1$conf.int, t2 = t2$conf.int,  t3 = t3$conf.int)
 ```
@@ -99,4 +100,20 @@ t2
 
 ```{r}
 t3
+```
+
+$\pagebreak$
+
+## Appendix B: Variance of Sub-Groups
+The variance of each subgroup is computed below. Although some groups have similarities, on the whole, there are large differences between specific groups.
+
+```{r}
+rbind(
+  OJ1 = var(OJ1),
+  OJ2 = var(OJ2),
+  OJ3 = var(OJ3),
+  VC1 = var(VC1),
+  VC2 = var(VC2),
+  VC3 = var(VC3)
+)
 ```
