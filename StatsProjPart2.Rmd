@@ -60,7 +60,7 @@ VC2 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 1)
 VC3 = subset(ToothGrowth$len, ToothGrowth$supp == "VC" & ToothGrowth$dose == 2)
 ```
 
-We then run a t-test for each of the three pairs that form our testable hypotheses:
+We then run a t-test for each of the three pairs and print out the p-values:
 ```{r}
 t1 = t.test(OJ3, OJ1, alternative = "two.sided", var.equal = FALSE)
 t2 = t.test(VC3, VC1, alternative = "two.sided", var.equal = FALSE)
@@ -76,7 +76,7 @@ The p-values of each test fall below the threshold of $.05$. We therefore reject
 
 1. On average, guinea pigs that were given $2 mg$ of vitamin C experienced greater tooth growth when this was adminstered through orange juice (M = 22.70) compared with ascorbic acid delivery (M = 16.774). This difference was significant $t(15.358)$ = 4.0328, $p$ < .01.
 
-The full results of each t-test are given in the appendix.
+The full results of each t-test are given in appendix A.
 
 Finally, the Gosset t-intervals for the three tests are given by: 
 ```{r}
